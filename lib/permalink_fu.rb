@@ -22,7 +22,7 @@ module PermalinkFu
       s = ClassMethods.decode(str)#.force_encoding("UTF-8")
       s.gsub!(/[^\x00-\x7F]+/, '') # Remove anything non-ASCII entirely (e.g. diacritics).
       s.gsub!(/[^\w_ \-]+/i,   '') # Remove unwanted chars.
-      s.gsub!(/[ \-]+/i,      '-') # No more than one of the separator in a row.
+      s.gsub!(/[ \-]+/i,      '_') # No more than one of the separator in a row.
       s.gsub!(/^\-|\-$/i,      '') # Remove leading/trailing separator.
       s.downcase!
       s.size == 0 ? ClassMethods.random_permalink(str) : s
@@ -126,7 +126,7 @@ module PermalinkFu
         end
       end
       while self.class.exists?(conditions)
-        suffix = "-#{counter += 1}"
+        suffix = "_#{counter += 1}"
         conditions[1] = "#{base[0..limit-suffix.size-1]}#{suffix}"
         send("#{self.class.permalink_field}=", conditions[1])
       end
